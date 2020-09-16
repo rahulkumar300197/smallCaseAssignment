@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script>
+        var data = [{"date_added":"2012-10-29T03:25:29.000Z","project_title":"Song Name","username":"admin","category_name":null}
+        ];
+        var loading = true;
+        $(document).ready(function() {
+            getData()
+        });
+        function dateFilter() {
+            console.log('dateFilter')
+        }
+        function projectTitleFilter() {
+            console.log('projectTitleFilter')
+        }
+        function usernameFilter() {
+            console.log('usernameFilter')
+        }
+        function categoryNameFilter() {
+            console.log('categoryNameFilter')
+        }
+        function getData() {
+            var settings = {
+                "async": true,
+                "url": "http://localhost:3000/customer/get_projects",
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json",
+                    "cache-control": "no-cache",
+                },
+                "processData": false,
+                "data": "{\n\t\"limit\": 10,\n\t\"offset\": 0\n}"
+            }
+
+            $.ajax(settings).done(function (response) {
+                loading = false;
+                response = JSON.parse(response);
+                data = response.data;
+            });
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        #customers {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #customers td,
+        #customers th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        .sortOpacity{
+            background: no-repeat;
+            border: none;
+            color: white;
+        }
+        #customers tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #customers tr:hover {
+            background-color: #ddd;
+        }
+
+        #customers th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+        }
+        .whirl.duo:after {
+            border-right: 4px solid #333333;
+            border-left: 4px solid #333333;
+            border-top: 4px solid #f1c40f;
+            border-bottom: 4px solid #f1c40f;
+        }
+    </style>
+</head>
+
+<body class="{'whirl duo' : loading }">{{loading}}
+
+
+<table id="customers">
+    <thead>
+    <tr>
+        <th>
+            <button onclick="dateFilter()" class="fa fa-sort sortOpacity"></button>
+            Date Added
+        </th>
+        <th>
+            <button onclick="projectTitleFilter()" class="fa fa-sort sortOpacity"></button>
+            Project Title
+        </th>
+        <th>
+            <button onclick="usernameFilter()" class="fa fa-sort sortOpacity"></button>
+            Username
+        </th>
+        <th>
+            <button onclick="categoryNameFilter()" class="fa fa-sort sortOpacity"></button>
+            Category Name
+        </th>
+    </tr>
+    </thead>
+    <tbody when-scrolled="vm.mainPaginationChangedForMultipleGeofence()">
+    <tr ng-repeat="obj in data">
+        <td >{{obj.date_added}}</td>
+        <td>{{obj.project_title}}</td>
+        <td>{{obj.username}}</td>
+        <td>{{obj.category_name}}</td>
+    </tr>
+    </tbody>
+
+</table>
+
+</body>
+
+</html>

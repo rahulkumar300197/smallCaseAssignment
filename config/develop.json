@@ -1,0 +1,12 @@
+{
+    "PORT": 3000,
+    "databaseSettings": {
+        "mongo": {
+            "connectionUrl": "mongodb://fintech:qwerty123@localhost:27017/fintech"
+        }
+    },
+    "authSettings": {
+        "authKey": "poiuytrewq@0987654321",
+        "saltRounds": 10
+    }
+}
